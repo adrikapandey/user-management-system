@@ -5,9 +5,19 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { env } from "./config/env.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
+import { connectDatabase } from "./config/db.js";
 
 const app = express();
 const apiRouter = express.Router();
+let databaseConnectionPromise;
+
+async function ensureDatabaseConnection() {
+  if (!databaseConnectionPromise) {
+    databaseConnectionPromise = connectDatabase();
+  }
+
+  await databaseConnectionPromise;
+}
 
 app.use(
   cors({
@@ -25,6 +35,14 @@ app.use(
 );
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(async (_req, _res, next) => {
+  try {
+    await ensureDatabaseConnection();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 apiRouter.get("/health", (_req, res) => {
   res.json({ status: "ok" });
