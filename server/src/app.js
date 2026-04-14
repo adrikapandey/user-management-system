@@ -7,6 +7,7 @@ import { env } from "./config/env.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
 const app = express();
+const apiRouter = express.Router();
 
 app.use(
   cors({
@@ -25,12 +26,15 @@ app.use(
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.get("/api/health", (_req, res) => {
+apiRouter.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
+apiRouter.use("/auth", authRoutes);
+apiRouter.use("/users", userRoutes);
+
+app.use("/api", apiRouter);
+app.use("/", apiRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
