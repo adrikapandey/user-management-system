@@ -6,7 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import { env } from "./config/env.js";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
-export const app = express();
+const app = express();
 
 app.use(
   cors({
@@ -34,3 +34,5 @@ app.use("/api/users", userRoutes);
 
 app.use(notFoundHandler);
 app.use(errorHandler);
+
+export default app;
