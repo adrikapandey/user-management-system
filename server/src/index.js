@@ -1,16 +1,23 @@
-import { app } from "./app.js";
+import app from "./app.js";
 import { connectDatabase } from "./config/db.js";
-import { env } from "./config/env.js";
 
-async function startServer() {
-  await connectDatabase();
+let connectionPromise;
 
-  app.listen(env.port, () => {
-    console.log(`Server listening on http://localhost:${env.port}`);
-  });
+async function ensureDatabaseConnection() {
+  if (!connectionPromise) {
+    connectionPromise = connectDatabase();
+  }
+
+  await connectionPromise;
 }
 
-startServer().catch((error) => {
-  console.error("Failed to start server", error);
-  process.exit(1);
+app.use(async (_req, _res, next) => {
+  try {
+    await ensureDatabaseConnection();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
+
+export default app;
