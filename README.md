@@ -103,15 +103,7 @@ npm run dev:client
 
 ## Deployment Notes
 
-- A starter [render.yaml](/Users/adrikapandey/Documents/New%20project/render.yaml) is included for deploying both frontend and backend on Render.
-- Deploy the backend to Render, Railway, or a similar Node-friendly platform.
-- Deploy the frontend to Render Static, Vercel, or Netlify.
+- Frontend is deployed on Vercel.
+- Backend is deployed on Vercel.
 - Set `VITE_API_BASE_URL` in the frontend deployment environment to your deployed backend URL plus `/api`.
 - Set `CLIENT_URL` in the backend deployment environment to your frontend URL.
-
-## Suggested Submission Checklist
-
-- Push the repository to a public GitHub repo
-- Deploy frontend and backend
-- Record a 2-3 minute demo video
-- Submit repo link, deployment links, and demo video via the provided assessment form
