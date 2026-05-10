@@ -19,6 +19,51 @@ A full-stack MERN application for managing users with secure authentication, rol
 - Database: MongoDB
 - Authentication: JWT
 
+## Architecture Diagram
+
+```mermaid
+flowchart TB
+    subgraph Roles["Users"]
+        Admin["Admin"]
+        Manager["Manager"]
+        User["User"]
+    end
+
+    subgraph Frontend["Frontend on Vercel"]
+        Login["Login Page"]
+        Dashboard["Role-Based Dashboard"]
+        UserList["User List / Search / Filters"]
+        Profile["My Profile"]
+        AuthState["Auth Context + Protected Routes"]
+    end
+
+    subgraph Backend["Backend on Vercel"]
+        Routes["Express Routes"]
+        Middleware["Zod Validation + JWT Auth + RBAC + Rate Limiting"]
+        Controllers["Controllers"]
+        Models["Mongoose Models"]
+    end
+
+    Atlas["MongoDB Atlas"]
+
+    Admin --> Login
+    Manager --> Login
+    User --> Login
+
+    Login --> AuthState
+    AuthState --> Dashboard
+    Dashboard --> UserList
+    Dashboard --> Profile
+
+    Frontend -->|REST API / JSON| Routes
+    Routes --> Middleware
+    Middleware --> Controllers
+    Controllers --> Models
+    Models --> Atlas
+    Atlas --> Models
+    Controllers --> Frontend
+```
+
 ## Project Structure
 
 ```text
