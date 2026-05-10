@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
           if (isMounted) {
             setAuth(refreshed);
           }
-        } catch (_refreshError) {
+        } catch {
           if (isMounted) {
             setAuth({ user: null, accessToken: null, refreshToken: null });
           }

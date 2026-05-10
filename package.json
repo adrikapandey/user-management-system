@@ -2,6 +2,7 @@
   "name": "user-management-system",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "workspaces": [
     "client",
     "server"
@@ -10,6 +11,15 @@
     "install:all": "npm install --workspaces",
     "dev:client": "npm --workspace client run dev",
     "dev:server": "npm --workspace server run dev",
-    "build": "npm --workspace client run build"
+    "build": "npm --workspace client run build",
+    "lint": "eslint client/src server/src",
+    "lint:fix": "eslint client/src server/src --fix"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0"
   }
 }
