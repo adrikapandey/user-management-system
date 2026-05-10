@@ -44,6 +44,18 @@ export function UserForm({ mode = "create", initialValues, onSubmit, onCancel, a
     onSubmit(payload);
   }
 
+  function resetForm() {
+    setForm(initialValues
+      ? {
+          name: initialValues.name || "",
+          email: initialValues.email || "",
+          role: initialValues.role || "user",
+          status: initialValues.status || "active",
+          password: ""
+        }
+      : initialState);
+  }
+
   return (
     <form className="stack" onSubmit={handleSubmit}>
       <div className="form-grid">
@@ -90,6 +102,11 @@ export function UserForm({ mode = "create", initialValues, onSubmit, onCancel, a
         {onCancel && (
           <button className="secondary-button" onClick={onCancel} type="button">
             Cancel
+          </button>
+        )}
+        {mode === "create" && (
+          <button className="secondary-button" onClick={resetForm} type="button">
+            Clear
           </button>
         )}
       </div>

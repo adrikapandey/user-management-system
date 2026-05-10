@@ -17,6 +17,7 @@ export function UsersPage() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [generatedPassword, setGeneratedPassword] = useState("");
   const [error, setError] = useState("");
+  const [createFormKey, setCreateFormKey] = useState(0);
 
   async function loadUsers(nextFilters = filters) {
     try {
@@ -37,6 +38,8 @@ export function UsersPage() {
     try {
       const response = await createUserRequest(accessToken, payload);
       setGeneratedPassword(response.generatedPassword || "");
+      setError("");
+      setCreateFormKey((current) => current + 1);
       await loadUsers({ ...filters, page: 1 });
     } catch (requestError) {
       setError(requestError.response?.data?.message || "Unable to create user");
@@ -85,7 +88,7 @@ export function UsersPage() {
         {user.role === "admin" && (
           <article className="panel">
             <h3>Create user</h3>
-            <UserForm allowAdminRole={user.role === "admin"} onSubmit={handleCreate} />
+            <UserForm key={createFormKey} allowAdminRole={user.role === "admin"} onSubmit={handleCreate} />
             {generatedPassword && <p className="success-text">Generated password: {generatedPassword}</p>}
           </article>
         )}
